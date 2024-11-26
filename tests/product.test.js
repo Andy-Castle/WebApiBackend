@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
 import request from "supertest";
-import app from "../index.js";
+import app, { server } from "../index.js"; // Importa la instancia del servidor
 import Product from "../models/product.model.js";
 
 describe("Product API Tests", () => {
-  // Datos de ejemplo basados en la imagen
   const sampleProduct = {
     name: "Cake",
     quantity: 4,
@@ -42,10 +41,10 @@ describe("Product API Tests", () => {
   });
 
   afterAll(async () => {
-    // Limpiar la base de datos y cerrar conexión
+    // Limpiar la base de datos y cerrar la conexión y el servidor
     await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
-    server.close();
+    server.close(); // Asegúrate de cerrar el servidor aquí
   });
 
   beforeEach(async () => {
@@ -55,7 +54,6 @@ describe("Product API Tests", () => {
 
   describe("GET /api/products", () => {
     it("should get all products", async () => {
-      // Insertar productos de prueba
       await Product.insertMany(expectedProducts);
 
       const response = await request(app).get("/api/products").expect(200);

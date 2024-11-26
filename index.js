@@ -6,11 +6,11 @@ import productRoute from "./routes/product.route.js";
 const DB = process.env.MONGODB;
 const app = express();
 
-//middleware
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-//routes
+// Routes
 app.use("/api/products", productRoute);
 
 app.get("/", (req, res) => {
@@ -20,19 +20,20 @@ app.get("/", (req, res) => {
 // Exportar app para testing
 export default app;
 
-// Modificar la parte de conexión para que solo se ejecute si no estamos en test
-if (process.env.MONGODB !== "test") {
+let server; // Variable para almacenar el servidor
+
+if (process.env.NODE_ENV !== "test") {
   mongoose
     .connect(DB)
     .then(() => {
       console.log("Conectado a la base de datos");
-      app.listen(3000, () => {
+      server = app.listen(3000, () => {
         console.log("Server is running on port 3000");
       });
     })
     .catch(() => {
-      console.log("Error en la conexion en la base de datos");
+      console.log("Error en la conexión en la base de datos");
     });
 }
 
-//Hello
+export { server }; // Exportar el servidor
