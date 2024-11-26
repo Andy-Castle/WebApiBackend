@@ -17,12 +17,10 @@ app.get("/", (req, res) => {
   res.send("Hello from Node API Server 2");
 });
 
-// Exportar app para testing
-export default app;
+// Inicializar la variable del servidor
+let server;
 
-let server; // Variable para almacenar el servidor
-
-if (process.env.NODE_ENV !== "test") {
+if (process.env.MONGODB !== "test") {
   mongoose
     .connect(DB)
     .then(() => {
@@ -36,4 +34,4 @@ if (process.env.NODE_ENV !== "test") {
     });
 }
 
-export { server }; // Exportar el servidor
+export { app, server }; // Exportar tanto app como server

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import request from "supertest";
-import app, { server } from "../index.js"; // Importa la instancia del servidor
+import { app, server } from "../index.js"; // Asegúrate de importar app y server
 import Product from "../models/product.model.js";
 
 describe("Product API Tests", () => {
@@ -34,21 +34,22 @@ describe("Product API Tests", () => {
   ];
 
   beforeAll(async () => {
-    // Conectar a una base de datos de prueba
     await mongoose.connect(
-      process.env.MONGODB || "mongodb://localhost:3000/api/products"
+      process.env.MONGODB || "mongodb://127.0.0.1:27017/testdb"
     );
   });
 
   afterAll(async () => {
-    // Limpiar la base de datos y cerrar la conexión y el servidor
+    // Limpiar la base de datos y cerrar conexiones
     await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
-    server.close(); // Asegúrate de cerrar el servidor aquí
+
+    if (server) {
+      server.close(); // Solo cerrar el servidor si existe
+    }
   });
 
   beforeEach(async () => {
-    // Limpiar la colección antes de cada test
     await Product.deleteMany({});
   });
 
