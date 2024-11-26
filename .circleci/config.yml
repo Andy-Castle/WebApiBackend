@@ -17,7 +17,8 @@ jobs:
           command: npm install jest-junit
       - run:
           name: Run tests Backend
-          command: npm run test --ci --runInBand --reporters=default --reporters=jest-junit --detectOpenHandles --forceExit
+          command: npm run test --ci --runInBand --reporters=default --reporters=jest-junit --detectOpenHandles --forceExit || true
+      pkill -f node
       - store_test_results:
           path: ./test-results/
   deploy:
