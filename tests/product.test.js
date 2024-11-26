@@ -45,6 +45,7 @@ describe("Product API Tests", () => {
     // Limpiar la base de datos y cerrar conexión
     await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
+    server.close();
   });
 
   beforeEach(async () => {
