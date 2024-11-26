@@ -16,7 +16,7 @@ jobs:
       - run:
           command: npm install jest-junit
       - run:
-          name: Run tests
+          name: Run tests Backend
           command: npm run test --ci --runInBand --reporters=default --reporters=jest-junit --forceExit
       - store_test_results:
           path: ./test-results/
@@ -28,7 +28,7 @@ jobs:
       # Replace this with steps to deploy to users
       - run:
           name: deploy
-          command: '#e.g. ./deploy.sh'
+          command: "#e.g. ./deploy.sh"
 workflows:
   build-and-test:
     jobs:
